@@ -52,11 +52,11 @@
     },
     "occupation_derivative_path": "3d4 4s1",
     "derivative_radials": {
-      "members": "confined 3d radials at 3d occupations 4 and 4 +/- 0.05 (spin-restricted) about 3d4 4s1, each with declared tails using the family's common matching radius and support",
-      "family_common_r_m": "smallest matching radius of the members",
-      "family_common_support": "largest support of the members",
-      "dR_3d/dn_3d": "central difference, step 0.05 e; orthogonalized to R_3d; normalized",
-      "d2R_3d/dn_3d^2": "central second difference, step 0.05 e; orthogonalized to R_3d and dR_3d/dn_3d; normalized",
+      "members": "family of confined 3d radials at 3d occupations 4, 4 +/- 0.05, 4 +/- 0.10, 4 +/- 0.20 (spin-restricted) about 3d4 4s1; each member sign-aligned (positive at 1.5 bohr), then continued with its own eigenvalue in the potential of the reference-occupation basis atom",
+      "family_common_r_m": "smallest natural matching radius over the family",
+      "family_common_support": "largest natural support over the family, recomputed with the common matching radius",
+      "dR_3d/dn_3d": "central difference over the members at 4 and 4 +/- 0.05 (step 0.05 e), after continuation and closure; orthogonalized to R_3d; normalized",
+      "d2R_3d/dn_3d^2": "central second difference over the members at 4 and 4 +/- 0.05 (step 0.05 e); orthogonalized to R_3d and dR_3d/dn_3d; normalized",
       "sign": "positive at r = 2.5 bohr"
     }
   },
@@ -67,7 +67,7 @@
     "blend_window": 1.0,
     "orbital_support_threshold": "r^2 R^2 below 1e-14 of its maximum",
     "density_support_threshold": 1e-10,
-    "closure": "multiply by 1 - (35x^4 - 84x^5 + 70x^6 - 20x^7) over the last min(1, (r_s - r_m)/4) bohr (radials, then renormalized) or min(2, max(1, (r_s - r_m)/4)) bohr (densities) before the support r_s",
+    "closure": "multiply by 1 - (35x^4 - 84x^5 + 70x^6 - 20x^7), x = (r - r_s + w)/w on [r_s - w, r_s], zero beyond r_s; w = min(1, (r_s - r_m)/4) for radials (then renormalized to the original norm) or min(2, max(1, (r_s - r_m)/4)) for densities",
     "density_decay_kappa0": {
       "V": 0.534,
       "O": 0.815
@@ -88,10 +88,11 @@
       "V": 18.19,
       "O": 11.53
     },
-    "departure_measure": "D(r) = |kappa_num - kappa_WKB| / kappa_WKB, kappa_num = numerical logarithmic derivative averaged over a running 0.5 bohr window",
-    "blend": "s = (1 - cos(pi x))/2 across the 1 bohr window centred on r_m",
-    "charge_restoration": "density charge removed by the closure restored as a normalized sin^2 bump between 0.25 r_s and 0.5 r_s (each atom exactly neutral)",
-    "oxygen_density": "the O free-atom density falls below the threshold before its matching radius: no WKB continuation, only the closure (support 11.53 < r_m 11.58)"
+    "departure_measure": "D(r) = |kappa_num - kappa_WKB| / kappa_WKB; kappa_num = -d ln|R|/dr (orbitals) or -(1/2) d ln rho/dr (densities), averaged over a running 0.5 bohr window; kappa_WKB = kappa + 1/r + kappa'/(2 kappa) (orbitals), the log-slope of the WKB form (densities)",
+    "blend": "s = (1 - cos(pi x))/2, x = (r - r_m + 0.5)/1.0 clipped to [0, 1]",
+    "charge_restoration": "full neutrality deficit Z - 4 pi int r^2 rho dr of the continued and closed density restored by the bump sin^2[pi (r - a)/(b - a)], a = 0.25 r_s < r < b = 0.5 r_s, normalized with 4 pi r^2 dr",
+    "oxygen_density": "the O density support (11.53) lies inside the 1 bohr blend window around its matching radius (11.58): the density is cut off within the blend and has no fully WKB outer segment",
+    "support_crossing": "log-linear interpolation of the threshold crossing between grid points"
   },
   "reference_operator_quadrature": {
     "partition": "Stratmann-Scuseria-Frisch",
@@ -151,5 +152,10 @@
     }
   },
   "repulsive_potential": "none (no fitted term)",
-  "note": "Radii, supports and matching radii are quoted to 0.01 bohr as in the paper; they follow from the rules given here."
+  "note": "Radii, supports and matching radii are quoted to 0.01 bohr as in the paper; they follow from the rules given here.",
+  "numerical_construction": {
+    "atomic_solver": "skprogs slateratom (PBE), reference atoms unconfined, basis atoms confined as listed",
+    "dense_tables": "logarithmic radial grid with ratio 1.01; cubic splines in ln r (functions), of r v (potentials), of ln rho (densities)",
+    "density_floor_before_matching": 1e-14
+  }
 }
