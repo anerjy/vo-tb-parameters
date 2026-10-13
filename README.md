@@ -1,11 +1,10 @@
 # V–O tight-binding model: v0 parameters
 
-Parameters of the v0 tight-binding model for vanadium oxides described in
+Parameters of the v0 tight-binding model for vanadium oxides described in the manuscript
 
 > Jun-qiang Lu, *A Parameter-Free Reference Hamiltonian for Tight-Binding Vanadium Oxides*
-> (arXiv preprint; submitted to J. Chem. Theory Comput.)
 
-`parameters_v0.json` lists every parameter that defines the model (lengths in bohr):
+`parameters_v0.json` gives the parameters and numerical settings of the model and the rules that fix its atomic functions (lengths in bohr):
 
 - reference atoms (neutral, unconfined, all-electron PBE; V 3d⁴4s¹, O 2s²2p⁴) and frozen cores (V 1s–3p, O 1s);
 - the 3ζ-d basis: confinement radii and radial set;

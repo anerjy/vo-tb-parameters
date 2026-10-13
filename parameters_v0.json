@@ -1,36 +1,97 @@
 {
   "model": "V-O tight-binding model, version v0 (parameter-free reference Hamiltonian + orbital-resolved charge response)",
-  "paper": "J.-q. Lu, A Parameter-Free Reference Hamiltonian for Tight-Binding Vanadium Oxides (arXiv preprint; J. Chem. Theory Comput., submitted)",
-  "units": {"length": "bohr", "inverse_length": "1/bohr", "density": "e/bohr^3"},
+  "paper": "J.-q. Lu, A Parameter-Free Reference Hamiltonian for Tight-Binding Vanadium Oxides (manuscript)",
+  "units": {
+    "length": "bohr",
+    "inverse_length": "1/bohr",
+    "density": "e/bohr^3"
+  },
   "reference_atoms": {
     "description": "neutral, unconfined, all-electron PBE atoms; the reference density is their superposition",
     "functional": "PBE",
-    "configuration": {"V": "3d4 4s1", "O": "2s2 2p4"},
-    "frozen_core": {"V": ["1s", "2s", "2p", "3s", "3p"], "O": ["1s"]},
+    "configuration": {
+      "V": "3d4 4s1",
+      "O": "2s2 2p4"
+    },
+    "frozen_core": {
+      "V": [
+        "1s",
+        "2s",
+        "2p",
+        "3s",
+        "3p"
+      ],
+      "O": [
+        "1s"
+      ]
+    },
     "scalar_relativistic_onsite_correction": "difference between the shell's scalar-relativistic and nonrelativistic atomic eigenvalues, added as (S diag d + diag d S)/2 before the core projection"
   },
   "basis": {
     "name": "3zeta-d",
     "confinement_form": "(r/r0)^2",
-    "confinement_r0": {"V_4s": 6.3789, "V_4p": 6.3789, "V_3d": 3.6873, "O_2s": 6.0, "O_2p": 6.0},
-    "radials": {
-      "O": ["2s", "2p"],
-      "V": ["4s", "4p", "3d", "dR_3d/dn_3d", "d2R_3d/dn_3d^2"]
+    "confinement_r0": {
+      "V_4s": 6.3789,
+      "V_4p": 6.3789,
+      "V_3d": 3.6873,
+      "O_2s": 6.0,
+      "O_2p": 6.0
     },
-    "occupation_derivative_path": "3d4 4s1"
+    "radials": {
+      "O": [
+        "2s",
+        "2p"
+      ],
+      "V": [
+        "4s",
+        "4p",
+        "3d",
+        "dR_3d/dn_3d",
+        "d2R_3d/dn_3d^2"
+      ]
+    },
+    "occupation_derivative_path": "3d4 4s1",
+    "derivative_radials": {
+      "members": "confined 3d radials at 3d occupations 4 and 4 +/- 0.05 (spin-restricted) about 3d4 4s1, each with declared tails using the family's common matching radius and support",
+      "family_common_r_m": "smallest matching radius of the members",
+      "family_common_support": "largest support of the members",
+      "dR_3d/dn_3d": "central difference, step 0.05 e; orthogonalized to R_3d; normalized",
+      "d2R_3d/dn_3d^2": "central second difference, step 0.05 e; orthogonalized to R_3d and dR_3d/dn_3d; normalized",
+      "sign": "positive at r = 2.5 bohr"
+    }
   },
   "declared_tails": {
     "continuation": "WKB form in the atom's own potential beyond the matching radius r_m",
-    "matching_rule": "1 bohr C1 blending window inside the last interval where the numerical and WKB logarithmic derivatives agree within the relative tolerance",
+    "matching_rule": "beyond 4 bohr (radials) or 5 bohr (densities): first stretch of >= 1 bohr with D <= 0.15, then the first sustained departure (D > 0.15 over >= 0.5 bohr); r_m = departure - 0.5 bohr (half the blend window) - 0.10 bohr",
     "logarithmic_derivative_tolerance": 0.15,
     "blend_window": 1.0,
     "orbital_support_threshold": "r^2 R^2 below 1e-14 of its maximum",
     "density_support_threshold": 1e-10,
-    "closure": "C3 step before the support; removed density charge restored locally (each atom exactly neutral)",
-    "density_decay_kappa0": {"V": 0.534, "O": 0.815},
-    "orbital_supports": {"V_4s": 12.79, "V_4p": 13.20, "V_3d": 9.35, "V_3d_family": 9.44, "O_2s": 9.92, "O_2p": 10.85},
-    "density_matching_radius": {"V": 9.98, "O": 11.58},
-    "density_support": {"V": 18.19, "O": 11.53}
+    "closure": "multiply by 1 - (35x^4 - 84x^5 + 70x^6 - 20x^7) over the last min(1, (r_s - r_m)/4) bohr (radials, then renormalized) or min(2, max(1, (r_s - r_m)/4)) bohr (densities) before the support r_s",
+    "density_decay_kappa0": {
+      "V": 0.534,
+      "O": 0.815
+    },
+    "orbital_supports": {
+      "V_4s": 12.79,
+      "V_4p": 13.2,
+      "V_3d": 9.35,
+      "V_3d_family": 9.44,
+      "O_2s": 9.92,
+      "O_2p": 10.85
+    },
+    "density_matching_radius": {
+      "V": 9.98,
+      "O": 11.58
+    },
+    "density_support": {
+      "V": 18.19,
+      "O": 11.53
+    },
+    "departure_measure": "D(r) = |kappa_num - kappa_WKB| / kappa_WKB, kappa_num = numerical logarithmic derivative averaged over a running 0.5 bohr window",
+    "blend": "s = (1 - cos(pi x))/2 across the 1 bohr window centred on r_m",
+    "charge_restoration": "density charge removed by the closure restored as a normalized sin^2 bump between 0.25 r_s and 0.5 r_s (each atom exactly neutral)",
+    "oxygen_density": "the O free-atom density falls below the threshold before its matching radius: no WKB continuation, only the closure (support 11.53 < r_m 11.58)"
   },
   "reference_operator_quadrature": {
     "partition": "Stratmann-Scuseria-Frisch",
@@ -38,24 +99,57 @@
     "radial_map": "r = r_s u / (1 - u)",
     "r_s": 1.0,
     "radial_points": 256,
-    "angular_grid": [24, 48],
-    "inclusion_radius": {"V": 16.24, "O": 10.95}
+    "angular_grid": [
+      24,
+      48
+    ],
+    "inclusion_radius": {
+      "V": 16.24,
+      "O": 10.95
+    }
   },
   "C0": {
     "pair_term_range": 37.0,
     "core_shift_coulomb": "two-centre reduction (analytic angular reduction, numerical radial integration)",
-    "sphere_quadrature": {"partition": "Becke over the 24 nearest images", "sphere_radius": 8.0, "radial_map": "r = 8 t^2", "radial_points": 80, "angular_grid": [16, 32]}
+    "core_shift_xc_and_dX_quadrature": {
+      "partition": "Becke over the 24 nearest images",
+      "sphere_radius": 8.0,
+      "radial_map": "r = 8 t^2",
+      "radial_points": 80,
+      "angular_grid": [
+        16,
+        32
+      ],
+      "note": "exchange-correlation non-additivity uses the Becke-partitioned spheres; core-level shifts are integrated over each atom's sphere without a partition; their Coulomb part uses the two-centre reduction"
+    }
   },
   "charge_response": {
-    "clouds": ["V 4s", "V 4p", "V 3d", "O 2s", "O 2p"],
+    "clouds": [
+      "V 4s",
+      "V 4p",
+      "V 3d",
+      "O 2s",
+      "O 2p"
+    ],
     "mapping": "charge-conserving, Coulomb metric; free-atom occupations on the first radial of each shell",
     "kernel": "Gamma = D J D, D = diag(s_c), J_cc' = (1/Omega) sum_{G != 0} 4 pi / (|G|^2 + eta) F_c*(G) F_c'(G)",
-    "screening": {"s_Vsp": 0.439, "s_Vd": 0.797, "s_O": 0.913},
+    "screening": {
+      "s_Vsp": 0.439,
+      "s_Vd": 0.797,
+      "s_O": 0.913
+    },
     "eta": 0.0
   },
   "occupations": {
-    "self_consistency_and_response": {"type": "Fermi-Dirac", "width_Ha": 1e-4},
-    "reference_energy": {"type": "Gaussian", "width_eV": 0.02}
+    "self_consistency_and_response": {
+      "type": "Fermi-Dirac",
+      "width_Ha": 0.0001
+    },
+    "reference_energy": {
+      "type": "Gaussian",
+      "width_eV": 0.02
+    }
   },
-  "repulsive_potential": "none (no fitted term)"
+  "repulsive_potential": "none (no fitted term)",
+  "note": "Radii, supports and matching radii are quoted to 0.01 bohr as in the paper; they follow from the rules given here."
 }
