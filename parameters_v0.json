@@ -1,0 +1,61 @@
+{
+  "model": "V-O tight-binding model, version v0 (parameter-free reference Hamiltonian + orbital-resolved charge response)",
+  "paper": "J.-q. Lu, A Parameter-Free Reference Hamiltonian for Tight-Binding Vanadium Oxides (arXiv preprint; J. Chem. Theory Comput., submitted)",
+  "units": {"length": "bohr", "inverse_length": "1/bohr", "density": "e/bohr^3"},
+  "reference_atoms": {
+    "description": "neutral, unconfined, all-electron PBE atoms; the reference density is their superposition",
+    "functional": "PBE",
+    "configuration": {"V": "3d4 4s1", "O": "2s2 2p4"},
+    "frozen_core": {"V": ["1s", "2s", "2p", "3s", "3p"], "O": ["1s"]},
+    "scalar_relativistic_onsite_correction": "difference between the shell's scalar-relativistic and nonrelativistic atomic eigenvalues, added as (S diag d + diag d S)/2 before the core projection"
+  },
+  "basis": {
+    "name": "3zeta-d",
+    "confinement_form": "(r/r0)^2",
+    "confinement_r0": {"V_4s": 6.3789, "V_4p": 6.3789, "V_3d": 3.6873, "O_2s": 6.0, "O_2p": 6.0},
+    "radials": {
+      "O": ["2s", "2p"],
+      "V": ["4s", "4p", "3d", "dR_3d/dn_3d", "d2R_3d/dn_3d^2"]
+    },
+    "occupation_derivative_path": "3d4 4s1"
+  },
+  "declared_tails": {
+    "continuation": "WKB form in the atom's own potential beyond the matching radius r_m",
+    "matching_rule": "1 bohr C1 blending window inside the last interval where the numerical and WKB logarithmic derivatives agree within the relative tolerance",
+    "logarithmic_derivative_tolerance": 0.15,
+    "blend_window": 1.0,
+    "orbital_support_threshold": "r^2 R^2 below 1e-14 of its maximum",
+    "density_support_threshold": 1e-10,
+    "closure": "C3 step before the support; removed density charge restored locally (each atom exactly neutral)",
+    "density_decay_kappa0": {"V": 0.534, "O": 0.815},
+    "orbital_supports": {"V_4s": 12.79, "V_4p": 13.20, "V_3d": 9.35, "V_3d_family": 9.44, "O_2s": 9.92, "O_2p": 10.85},
+    "density_matching_radius": {"V": 9.98, "O": 11.58},
+    "density_support": {"V": 18.19, "O": 11.53}
+  },
+  "reference_operator_quadrature": {
+    "partition": "Stratmann-Scuseria-Frisch",
+    "a_SSF": 0.64,
+    "radial_map": "r = r_s u / (1 - u)",
+    "r_s": 1.0,
+    "radial_points": 256,
+    "angular_grid": [24, 48],
+    "inclusion_radius": {"V": 16.24, "O": 10.95}
+  },
+  "C0": {
+    "pair_term_range": 37.0,
+    "core_shift_coulomb": "two-centre reduction (analytic angular reduction, numerical radial integration)",
+    "sphere_quadrature": {"partition": "Becke over the 24 nearest images", "sphere_radius": 8.0, "radial_map": "r = 8 t^2", "radial_points": 80, "angular_grid": [16, 32]}
+  },
+  "charge_response": {
+    "clouds": ["V 4s", "V 4p", "V 3d", "O 2s", "O 2p"],
+    "mapping": "charge-conserving, Coulomb metric; free-atom occupations on the first radial of each shell",
+    "kernel": "Gamma = D J D, D = diag(s_c), J_cc' = (1/Omega) sum_{G != 0} 4 pi / (|G|^2 + eta) F_c*(G) F_c'(G)",
+    "screening": {"s_Vsp": 0.439, "s_Vd": 0.797, "s_O": 0.913},
+    "eta": 0.0
+  },
+  "occupations": {
+    "self_consistency_and_response": {"type": "Fermi-Dirac", "width_Ha": 1e-4},
+    "reference_energy": {"type": "Gaussian", "width_eV": 0.02}
+  },
+  "repulsive_potential": "none (no fitted term)"
+}
