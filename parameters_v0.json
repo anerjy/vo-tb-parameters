@@ -88,7 +88,7 @@
       "V": 18.19,
       "O": 11.53
     },
-    "departure_measure": "D(r) = |kappa_num - kappa_WKB| / kappa_WKB; kappa_num = -d ln|R|/dr (orbitals) or -(1/2) d ln rho/dr (densities), averaged over a running 0.5 bohr window; kappa_WKB = kappa + 1/r + kappa'/(2 kappa) (orbitals), the log-slope of the WKB form (densities)",
+    "departure_measure": "D(r) = |kappa_num - kappa_WKB| / kappa_WKB; orbitals: kappa_num = -d ln|R|/dr, densities: kappa_num = -(1/2) d ln rho/dr, both averaged over a running 0.5 bohr window; kappa_WKB = kappa + 1/r + kappa'/(2 kappa) in both cases (for densities this is -(1/2) d ln rho_WKB/dr)",
     "blend": "s = (1 - cos(pi x))/2, x = (r - r_m + 0.5)/1.0 clipped to [0, 1]",
     "charge_restoration": "full neutrality deficit Z - 4 pi int r^2 rho dr of the continued and closed density restored by the bump sin^2[pi (r - a)/(b - a)], a = 0.25 r_s < r < b = 0.5 r_s, normalized with 4 pi r^2 dr",
     "oxygen_density": "the O density support (11.53) lies inside the 1 bohr blend window around its matching radius (11.58): the density is cut off within the blend and has no fully WKB outer segment",
