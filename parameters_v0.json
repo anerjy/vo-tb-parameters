@@ -7,7 +7,7 @@
     "density": "e/bohr^3"
   },
   "reference_atoms": {
-    "description": "neutral, unconfined, all-electron PBE atoms; the reference density is their superposition",
+    "description": "neutral, all-electron PBE atoms computed with a nominal (r/1000 bohr)^2 confinement (confinement energy 4.4e-5 Ha for V, 1.2e-5 Ha for O; unconfined in effect); the reference density is their superposition",
     "functional": "PBE",
     "configuration": {
       "V": "3d4 4s1",
@@ -25,7 +25,7 @@
         "1s"
       ]
     },
-    "scalar_relativistic_onsite_correction": "difference between the shell's scalar-relativistic and nonrelativistic atomic eigenvalues, added as (S diag d + diag d S)/2 before the core projection"
+    "scalar_relativistic_onsite_correction": "d_f = (scalar-relativistic atomic eigenvalue of the shell) - (expectation value of the nonrelativistic atomic Hamiltonian, including the confinement potential for basis functions, in that orbital, evaluated on the original atomic radial before its tail continuation); the two added d radials carry the 3d value; added as (S diag d + diag d S)/2 before the core projection"
   },
   "basis": {
     "name": "3zeta-d",
@@ -154,7 +154,15 @@
       },
       "note": "the same 3d4 4s1 / 2s2 2p4 configurations as the reference atoms of the reference Hamiltonian"
     },
-    "determination": "joint fit to the 22 matched PBE linear responses of VO2-R (14) and V2O3 (8) on the final operators, M1 held out; eta = 0 is the optimum (the fit quality degrades monotonically for eta > 0 up to 0.05 bohr^-2)"
+    "determination": "joint fit to the 22 matched PBE linear responses of VO2-R (14) and V2O3 (8) on the final operators, M1 held out; eta = 0 is the optimum (the fit quality degrades monotonically for eta > 0 up to 0.05 bohr^-2)",
+    "sphere_projector": {
+      "definition": "W_l = sum_m |phi_lm><phi_lm| restricted to a sphere, phi = first all-electron partial wave of channel l normalised inside the sphere",
+      "radius_bohr": {
+        "V": 2.3,
+        "O": 1.55
+      },
+      "scale": "none (the unscaled projector reproduces VASP's on-site occupation of the reference state to 91-93% for V 3d and 97% for O 2p)"
+    }
   },
   "occupations": {
     "self_consistency_and_response": {
@@ -169,8 +177,10 @@
   "repulsive_potential": "none (no fitted term)",
   "note": "Radii, supports and matching radii are quoted to 0.01 bohr as in the paper; they follow from the rules given here.",
   "numerical_construction": {
-    "atomic_solver": "skprogs slateratom (PBE), reference atoms unconfined, basis atoms confined as listed",
-    "dense_tables": "logarithmic radial grid with ratio 1.01; cubic splines in ln r (functions), of r v (potentials), of ln rho (densities)",
-    "density_floor_before_matching": 1e-14
+    "atomic_solver": "skprogs slateratom (PBE, scalar-relativistic); reference atoms with the nominal (r/1000 bohr)^2 confinement stated under reference_atoms (unconfined in effect), basis atoms confined as listed",
+    "dense_tables": "reference-operator and C0 construction only: logarithmic radial grid with ratio 1.01; cubic splines in ln r (functions), of r v (potentials), of ln rho (densities)",
+    "density_floor_before_matching": 1e-14,
+    "response_path_ao_cutoff": "response path, sampled basis functions only (the AO Bloch sums used for the mapping, the sphere projectors and the self-consistency): each basis function is represented on the FFT grid out to the radius where r^2 R^2 falls below 1e-8 of its maximum, at most 15 bohr (linear interpolation of the radial table, single-precision cache)",
+    "response_path_cloud_form_factors": "the cloud form factors F_c(G) integrate the full stored radial density of each shell (no cutoff), tabulated at 600 uniformly spaced |G| values and interpolated"
   }
 }

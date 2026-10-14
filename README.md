@@ -7,7 +7,7 @@ Parameters of the v0 tight-binding model for vanadium oxides described in the ma
 
 `parameters_v0.json` gives the parameters and numerical settings of the model and the rules that fix its atomic functions (lengths in bohr):
 
-- reference atoms (neutral, unconfined, all-electron PBE; V 3d⁴4s¹, O 2s²2p⁴) and frozen cores (V 1s–3p, O 1s); the charge reference of the response carries the same occupations on the first radial of each shell;
+- reference atoms (neutral, all-electron PBE, computed with a nominal (r/1000 bohr)² confinement whose energy is 4.4×10⁻⁵ Ha for V and 1.2×10⁻⁵ Ha for O; V 3d⁴4s¹, O 2s²2p⁴) and frozen cores (V 1s–3p, O 1s); the charge reference of the response carries the same occupations on the first radial of each shell;
 - the 3ζ-d basis: confinement radii and radial set;
 - the declared atomic-function tails, supports and matching rule;
 - the reference-operator and C₀ quadrature settings;
