@@ -1,6 +1,6 @@
 {
   "model": "V-O tight-binding model, version v0 (parameter-free reference Hamiltonian + orbital-resolved charge response)",
-  "paper": "J.-q. Lu, A Parameter-Free Reference Hamiltonian for Tight-Binding Vanadium Oxides (manuscript)",
+  "paper": "J.-q. Lu, A Parameter-Free Reference Hamiltonian for Tight-Binding Vanadium Oxides, arXiv:2610.17687 (2026), https://arxiv.org/abs/2610.17687",
   "units": {
     "length": "bohr",
     "inverse_length": "1/bohr",

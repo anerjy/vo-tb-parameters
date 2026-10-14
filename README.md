@@ -2,7 +2,8 @@
 
 Parameters of the v0 tight-binding model for vanadium oxides described in the manuscript
 
-> Jun-qiang Lu, *A Parameter-Free Reference Hamiltonian for Tight-Binding Vanadium Oxides*
+> Jun-qiang Lu, *A Parameter-Free Reference Hamiltonian for Tight-Binding Vanadium Oxides*,
+> [arXiv:2610.17687](https://arxiv.org/abs/2610.17687) (2026).
 
 `parameters_v0.json` gives the parameters and numerical settings of the model and the rules that fix its atomic functions (lengths in bohr):
 
