@@ -132,14 +132,29 @@
       "O 2s",
       "O 2p"
     ],
-    "mapping": "charge-conserving, Coulomb metric; free-atom occupations on the first radial of each shell",
+    "mapping": "charge-conserving, Coulomb metric; reference-atom occupations on the first radial of each shell (see reference_occupations); added d radials carry no reference charge",
     "kernel": "Gamma = D J D, D = diag(s_c), J_cc' = (1/Omega) sum_{G != 0} 4 pi / (|G|^2 + eta) F_c*(G) F_c'(G)",
     "screening": {
-      "s_Vsp": 0.439,
-      "s_Vd": 0.797,
-      "s_O": 0.913
+      "s_Vsp": 0.597,
+      "s_Vd": 0.633,
+      "s_O": 0.934
     },
-    "eta": 0.0
+    "eta": 0.0,
+    "reference_occupations": {
+      "V": {
+        "4s": 1.0,
+        "4p": 0.0,
+        "3d": 4.0,
+        "dR_3d/dn_3d": 0.0,
+        "d2R_3d/dn_3d^2": 0.0
+      },
+      "O": {
+        "2s": 2.0,
+        "2p": 4.0
+      },
+      "note": "the same 3d4 4s1 / 2s2 2p4 configurations as the reference atoms of the reference Hamiltonian"
+    },
+    "determination": "joint fit to the 22 matched PBE linear responses of VO2-R (14) and V2O3 (8) on the final operators, M1 held out; eta = 0 is the optimum (the fit quality degrades monotonically for eta > 0 up to 0.05 bohr^-2)"
   },
   "occupations": {
     "self_consistency_and_response": {
